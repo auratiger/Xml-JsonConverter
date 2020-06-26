@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<soap:Envelope xmlns:soap="http://www.w3.org/2003/05/soap-envelope" xmlns:ins="http://soa.comptel.com/2011/02/instantlink">
+	<soap:Header xmlns:wsa="http://www.w3.org/2005/08/addressing">
+		<wsa:Action>http://soa.comptel.com/2011/02/instantlink/InstantLinkSOA/createRequest</wsa:Action>
+
+		<wsa:ReplyTo>
+			<wsa:Address>http://som-cablevision:44006/ilws-response-mock-impl/ResponseHandlerService?wsdl</wsa:Address>
+		</wsa:ReplyTo>
+
+	</soap:Header>
+	<soap:Body>
+		<ns1:CreateRequest xmlns:ns1="http://soa.comptel.com/2011/02/instantlink">
+			<ns1:RequestHeader>
+				<ns1:NeType>ORDER</ns1:NeType>
+				<ns1:OrderNo>GG</ns1:OrderNo>
+				<ns1:Priority>2</ns1:Priority>
+				<ns1:ReqUser>VLOCITY</ns1:ReqUser>
+			</ns1:RequestHeader>
+			<ns1:RequestParameters>
+				<ns1:Parameter name="OWNER" value="VASIL"/>
+				<!-- please do not change it-->
+				<ns1:Parameter name="OWNER_TEST" value="GG"/>
+				<ins:Parameter name="REQUEST_TRACE" value="EVERYTHING"/>
+				<ns1:Parameter name="ORDER_NO" value="15411"/>
+
+				<ns1:Parameter name="SUBS_ID" value="0060000678"/>
+				<ns1:Parameter name="SUBS_NAME_FIRST" value="JUAN"/>
+				<ns1:Parameter name="SUBS_NAME_LAST" value="PEREZ"/>
+				<ns1:Parameter name="SUBS_ADDRESS_ID" value="uaxhjhg"/>
+				<ns1:Parameter name="SUBS_ADDRESS_LOCALITY" value="BAZFOO"/>
+				<ns1:Parameter name="SUBS_ADDRESS_CITY" value="BAZFOO"/>
+				<ns1:Parameter name="SUBS_ADDRESS_PROVINCE" value="BAZFOO"/>
+				<ns1:Parameter name="SUBS_ADDRESS_NUMBER" value="BAZFOO"/>
+				<ns1:Parameter name="SUBS_ADDRESS_COUNTRY" value="BAZFOO"/>
+				<ns1:Parameter name="SUBS_ADDRESS_STREET" value="BAZFOO"/>
+				<ns1:Parameter name="CRM_CORRELATION_ID" value="12345"/>
+				<ns1:Parameter name="WF_ORDER" value="876"/>
+
+				<ns1:Parameter name="LINE_1_INSTANCE_ID" value="202006221220"/>
+				<ns1:Parameter name="LINE_1_CFS" value="FTTH_DATA_ACCESS"/>
+				<ns1:Parameter name="LINE_1_WF_ACTIVITY" value="1"/>
+				<ns1:Parameter name="LINE_1_ACTION" value="CONNECT"/>
+
+				<ns1:Parameter name="LINE_2_INSTANCE_ID" value="2020062212201"/>
+				<ns1:Parameter name="LINE_2_CFS" value="FTTH_INTERNET_SERVICE"/>
+				<ns1:Parameter name="LINE_2_PARENT_INSTANCE_ID" value="202006221220"/>
+				<ns1:Parameter name="LINE_2_PRODUCT" value="2805"/>
+				<ns1:Parameter name="LINE_2_ACTION" value="CONNECT"/>
+
+				<ns1:Parameter name="LINE_3_INSTANCE_ID" value="2020062212202"/>
+				<ns1:Parameter name="LINE_3_CFS" value="FTTH_TOIP_ACCOUNT"/>
+				<ns1:Parameter name="LINE_3_PARENT_INSTANCE_ID" value="202006221220"/>
+				<ns1:Parameter name="LINE_3_PARENT_INSTANCE_ID_ALIAS_ADD_1" value="2020062212203"/>
+				<ns1:Parameter name="LINE_3_DN" value="542006221220"/>
+				<ns1:Parameter name="LINE_3_LI" value="12"/>
+				<ns1:Parameter name="LINE_3_ACTION" value="CONNECT"/>
+
+				<!-- OPTIONAL PARAMETERS FOR PORTABILITY CASES -->
+				<ns1:Parameter name="LINE_3_PORTED" value="0"/>
+				<ns1:Parameter name="LINE_3_PORTED_TYPE" value="PI"/>
+
+			</ns1:RequestParameters>
+		</ns1:CreateRequest>
+	</soap:Body>
+</soap:Envelope>
