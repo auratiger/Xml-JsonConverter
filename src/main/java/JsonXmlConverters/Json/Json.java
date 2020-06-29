@@ -69,6 +69,10 @@ class JsonBuilder implements JsonObjectBuilder{
         return this;
     }
 
+    public boolean isEmpty(){
+        return var.isEmpty();
+    }
+
     @Override
     public boolean equals(Object obj) {
         if(obj == this) return true;
@@ -93,8 +97,10 @@ class JsonBuilder implements JsonObjectBuilder{
             sb.append(key)
               .append(":")
               .append(var.get(key))
-              .append(it.hasNext() ? ", " : " }");
+              .append(it.hasNext() ? ", " : "");
         }
+
+        sb.append(" }");
 
         return sb.toString();
     }
@@ -134,14 +140,14 @@ class Value{
         if(value == null)
             this.value = "null";
         else
-            this.value = "\"" + value.toString() + "\"";
+            this.value = value.toString();
     }
 
     public Value(ArrayObjectBuilder value){
         if(value == null)
             this.value = "null";
         else
-            this.value = "\"" + value.toString() + "\"";
+            this.value = value.toString();
     }
 
     @Override

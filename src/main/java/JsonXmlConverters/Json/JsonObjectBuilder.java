@@ -11,4 +11,6 @@ public interface JsonObjectBuilder {
     public JsonObjectBuilder add(String key, boolean value);
     public JsonObjectBuilder add(String key, JsonObjectBuilder value);
     public JsonObjectBuilder add(String key, ArrayObjectBuilder value);
+
+    public boolean isEmpty();
 }
