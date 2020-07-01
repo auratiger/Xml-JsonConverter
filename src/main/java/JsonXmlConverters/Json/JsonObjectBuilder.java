@@ -12,5 +12,7 @@ public interface JsonObjectBuilder {
     public JsonObjectBuilder add(String key, JsonObjectBuilder value);
     public JsonObjectBuilder add(String key, ArrayObjectBuilder value);
 
+    //TODO: add remove methods
+
     public boolean isEmpty();
 }

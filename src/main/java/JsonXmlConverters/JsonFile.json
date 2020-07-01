@@ -1,0 +1,71 @@
+{
+  "soap:Envelope":{
+    "@xmlns:ins":"http://soa.comptel.com/2011/02/instantlink",
+    "#soap:Envelope":{
+      "soap:Body":{
+        "ns1:CreateRequest":{
+          "@xmlns:ns1":"http://soa.comptel.com/2011/02/instantlink",
+          "#ns1:CreateRequest":{
+            "ns1:RequestHeader":{
+              "ns1:OrderNo":"GG",
+              "ns1:ReqUser":"VLOCITY",
+              "ns1:NeType":"ORDER",
+              "ns1:Priority":"2"
+            },
+            "ns1:RequestParameters":{
+              "ins:Parameter":{
+                "@value":"EVERYTHING",
+                "@name":"REQUEST_TRACE",
+                "#ins:Parameter":null
+              },
+              "ns1:Parameter":[
+                { "@value":"VASIL", "#ns1:Parameter":null, "@name":"OWNER" },
+                { "@value":"GG", "#ns1:Parameter":null, "@name":"OWNER_TEST" },
+                { "@value":"15411", "#ns1:Parameter":null, "@name":"ORDER_NO" },
+                { "@value":"0060000678", "#ns1:Parameter":null, "@name":"SUBS_ID" },
+                { "@value":"JUAN", "#ns1:Parameter":null, "@name":"SUBS_NAME_FIRST" },
+                { "@value":"PEREZ", "#ns1:Parameter":null, "@name":"SUBS_NAME_LAST" },
+                { "@value":"uaxhjhg", "#ns1:Parameter":null, "@name":"SUBS_ADDRESS_ID" },
+                { "@value":"BAZFOO", "#ns1:Parameter":null, "@name":"SUBS_ADDRESS_LOCALITY" },
+                { "@value":"BAZFOO", "#ns1:Parameter":null, "@name":"SUBS_ADDRESS_CITY" },
+                { "@value":"BAZFOO", "#ns1:Parameter":null, "@name":"SUBS_ADDRESS_PROVINCE" },
+                { "@value":"BAZFOO", "#ns1:Parameter":null, "@name":"SUBS_ADDRESS_NUMBER" },
+                { "@value":"BAZFOO", "#ns1:Parameter":null, "@name":"SUBS_ADDRESS_COUNTRY" },
+                { "@value":"BAZFOO", "#ns1:Parameter":null, "@name":"SUBS_ADDRESS_STREET" },
+                { "@value":"12345", "#ns1:Parameter":null, "@name":"CRM_CORRELATION_ID" },
+                { "@value":"876", "#ns1:Parameter":null, "@name":"WF_ORDER" },
+                { "@value":"202006221220", "#ns1:Parameter":null, "@name":"LINE_1_INSTANCE_ID" },
+                { "@value":"FTTH_DATA_ACCESS", "#ns1:Parameter":null, "@name":"LINE_1_CFS" },
+                { "@value":"1", "#ns1:Parameter":null, "@name":"LINE_1_WF_ACTIVITY" },
+                { "@value":"CONNECT", "#ns1:Parameter":null, "@name":"LINE_1_ACTION" },
+                { "@value":"2020062212201", "#ns1:Parameter":null, "@name":"LINE_2_INSTANCE_ID" },
+                { "@value":"FTTH_INTERNET_SERVICE", "#ns1:Parameter":null, "@name":"LINE_2_CFS" },
+                { "@value":"202006221220", "#ns1:Parameter":null, "@name":"LINE_2_PARENT_INSTANCE_ID" },
+                { "@value":"2805", "#ns1:Parameter":null, "@name":"LINE_2_PRODUCT" },
+                { "@value":"CONNECT", "#ns1:Parameter":null, "@name":"LINE_2_ACTION" },
+                { "@value":"2020062212202", "#ns1:Parameter":null, "@name":"LINE_3_INSTANCE_ID" },
+                { "@value":"FTTH_TOIP_ACCOUNT", "#ns1:Parameter":null, "@name":"LINE_3_CFS" },
+                { "@value":"202006221220", "#ns1:Parameter":null, "@name":"LINE_3_PARENT_INSTANCE_ID" },
+                { "@value":"2020062212203", "#ns1:Parameter":null, "@name":"LINE_3_PARENT_INSTANCE_ID_ALIAS_ADD_1" },
+                { "@value":"542006221220", "#ns1:Parameter":null, "@name":"LINE_3_DN" },
+                { "@value":"12", "#ns1:Parameter":null, "@name":"LINE_3_LI" },
+                { "@value":"CONNECT", "#ns1:Parameter":null, "@name":"LINE_3_ACTION" },
+                { "@value":"0", "#ns1:Parameter":null, "@name":"LINE_3_PORTED" },
+                { "@value":"PI", "#ns1:Parameter":null, "@name":"LINE_3_PORTED_TYPE" }]
+            }
+          }
+        }
+      },
+      "soap:Header":{
+        "#soap:Header":{
+          "wsa:Action":"http://soa.comptel.com/2011/02/instantlink/InstantLinkSOA/createRequest",
+          "wsa:ReplyTo":{
+            "wsa:Address":"http://som-cablevision:44006/ilws-response-mock-impl/ResponseHandlerService?wsdl"
+          }
+        },
+        "@xmlns:wsa":"http://www.w3.org/2005/08/addressing"
+      }
+    },
+    "@xmlns:soap":"http://www.w3.org/2003/05/soap-envelope"
+  }
+}

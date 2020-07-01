@@ -5,10 +5,10 @@ import JsonXmlConverters.Json.Json;
 import JsonXmlConverters.Json.JsonObjectBuilder;
 import JsonXmlConverters.Xml.Xml;
 import JsonXmlConverters.Xml.XmlObjectBuilder;
+import com.florianingerl.util.regex.Matcher;
+import com.florianingerl.util.regex.Pattern;
 
 import java.util.*;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 public class XmlJsonConverter {
     private final Resources resources = Resources.getInstance();
@@ -16,8 +16,11 @@ public class XmlJsonConverter {
     private final String xmlPattern = resources.get("pattern.xml");
     private final String attributePattern = resources.get("pattern.attribute");
 
+    private final String jsonPattern = resources.get("pattern.json");
+
     private final Pattern patCompiler = Pattern.compile(xmlPattern);
     private final Pattern attributeCompiler = Pattern.compile(attributePattern);
+    private final Pattern jsonCompiler = Pattern.compile(jsonPattern);
 
     class XmlNode{
         private String tag;
@@ -86,6 +89,8 @@ public class XmlJsonConverter {
 
                         if(node.body == null || node.body.equals("")){
                             bodyBuilder.add("#"+node.tag, (JsonObjectBuilder) null);
+                        }else if(node.body.equals("true") || node.body.equals("false")){
+                            bodyBuilder.add("#"+node.tag, Boolean.parseBoolean(node.body));
                         }else if((innerBody = parseXml(node.body)) == null){
                             bodyBuilder.add("#"+node.tag, node.body);
                         }else{
@@ -95,6 +100,8 @@ public class XmlJsonConverter {
                     }else{
                         if(node.body == null || node.body.equals("")){
                             arrayObjectBuilder.add((JsonObjectBuilder) null);
+                        }else if(node.body.equals("true") || node.body.equals("false")){
+                            arrayObjectBuilder.add(Boolean.parseBoolean(node.body));
                         }else if((bodyBuilder = parseXml(node.body)) == null){
                             arrayObjectBuilder.add(node.body);
                         }else{
@@ -115,6 +122,8 @@ public class XmlJsonConverter {
 
                     if(node.body == null || node.body.equals("")){
                         bodyBuilder.add("#"+node.tag, (JsonObjectBuilder) null);
+                    }else if(node.body.equals("true") || node.body.equals("false")){
+                        bodyBuilder.add("#"+node.tag, Boolean.parseBoolean(node.body));
                     }else if((innerBody = parseXml(node.body)) == null){
                         bodyBuilder.add("#"+node.tag, node.body);
                     }else{
@@ -124,6 +133,8 @@ public class XmlJsonConverter {
                 }else{
                     if(node.body == null || node.body.equals("")){
                         builder.add(node.tag, (JsonObjectBuilder) null);
+                    }else if(node.body.equals("true") || node.body.equals("false")){
+                        builder.add(node.tag, Boolean.parseBoolean(node.body));
                     }else if((bodyBuilder = parseXml(node.body)) == null){
                         builder.add(node.tag, node.body);
                     }else{
@@ -170,8 +181,37 @@ public class XmlJsonConverter {
     }
 
     public XmlObjectBuilder parseJson(String jsonText){
+        XmlObjectBuilder builder;
+        HashMap<String, String> matches = findJsonMatches(jsonText);
+
+        Set<String> keys = matches.keySet();
+        Iterator<String> it = keys.iterator();
+
+        if(keys.size() == 1){
+            String key = it.next();
+            String value = matches.get(key);
+
+            builder = Xml.createXmlObjectBuilder(key);
+
+        }
+
+        for(;it.hasNext();){
+
+        }
 
         return null;
     }
 
+    private HashMap<String, String> findJsonMatches(String jsonText){
+        HashMap<String, String> matches = new HashMap<>();
+
+        Matcher matcher = jsonCompiler.matcher(jsonText);
+
+        while(matcher.find()){
+            String key = matcher.group(2);
+            String value = matcher.group(3);
+            matches.put(key, value);
+        }
+        return matches;
+    }
 }

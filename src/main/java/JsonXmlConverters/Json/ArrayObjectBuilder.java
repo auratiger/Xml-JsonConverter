@@ -9,4 +9,6 @@ public interface ArrayObjectBuilder {
     public ArrayObjectBuilder add(boolean value);
     public ArrayObjectBuilder add(JsonObjectBuilder value);
     public ArrayObjectBuilder add(ArrayObjectBuilder value);
+
+    //TODO: add remove methods
 }
