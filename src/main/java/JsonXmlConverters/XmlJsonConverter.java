@@ -22,6 +22,8 @@ public class XmlJsonConverter {
     private final Pattern attributeCompiler = Pattern.compile(attributePattern);
     private final Pattern jsonCompiler = Pattern.compile(jsonPattern);
 
+    private boolean hasParent = false;
+
     class XmlNode{
         private String tag;
         private String attributes;
@@ -181,25 +183,42 @@ public class XmlJsonConverter {
     }
 
     public XmlObjectBuilder parseJson(String jsonText){
-        XmlObjectBuilder builder;
+        XmlObjectBuilder builder = Xml.createXmlObjectBuilder("root");
         HashMap<String, String> matches = findJsonMatches(jsonText);
 
         Set<String> keys = matches.keySet();
         Iterator<String> it = keys.iterator();
 
-        if(keys.size() == 1){
+        if(keys.isEmpty()){
+            return null;
+        } else if (keys.size() == 1) {
+
             String key = it.next();
-            String value = matches.get(key);
+            String value = matches.get(key).trim();
 
-            builder = Xml.createXmlObjectBuilder(key);
+            builder.setTag(key);
 
+            if (value.startsWith("{") || value.startsWith("[")) {
+                HashMap<String, String> innerMatches = findJsonMatches(value);
+                Set<String> innerKeys = innerMatches.keySet();
+                Iterator<String> innerIt = innerKeys.iterator();
+
+                for(;innerIt.hasNext();){
+                    String innerKey = innerIt.next();
+                    String innerValue = innerMatches.get(innerKey);
+                }
+
+            }else{
+                builder.addElement(value);
+            }
+
+
+        } else {
+            // add has a parent check
+            builder.setTag("root");
         }
 
-        for(;it.hasNext();){
-
-        }
-
-        return null;
+        return builder;
     }
 
     private HashMap<String, String> findJsonMatches(String jsonText){

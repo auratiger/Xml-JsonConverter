@@ -1,6 +1,7 @@
 package JsonXmlConverters;
 
 import JsonXmlConverters.Json.JsonObjectBuilder;
+import JsonXmlConverters.Xml.XmlObjectBuilder;
 import com.florianingerl.util.regex.Matcher;
 import com.florianingerl.util.regex.Pattern;
 
@@ -60,35 +61,11 @@ public class XmlJsonConverterTerm {
 
         String text = sb.toString();
         System.out.println(text);
-        int size = text.length();
 
-        long start = System.nanoTime();
+        XmlJsonConverter converter = new XmlJsonConverter();
+        XmlObjectBuilder result = converter.parseJson(text);
+        System.out.println(result);
 
-        for(int i = 0; i < size; i++){
-            System.out.println(text.charAt(i));
-        }
 
-        long end = System.nanoTime();
-
-        System.out.println("==========================");
-        System.out.println((end - start) / 1000000);
-
-        final String regex = "(\\s*\"([@#:\\w\\s]+)\"\\s*:\\s*(null|false|true|\"[\\w\\s\\\\\\/:.\\-?!@#$%^&*]*\"|\\d+\\.*\\d*|\\[[\\w\\W]*\\]|(\\{((?(?=(?:[^\\{}]*)\\{)(?:[^\\{}]*(?4))|[^\\{}]*)(?(?=\\s*\\})(?:\\s*\\})|(?:(?5)))))))";
-        Pattern pattern = Pattern.compile(regex);
-
-        start = System.nanoTime();
-
-        Matcher matcher = pattern.matcher(text);
-
-        while(matcher.find()){
-            System.out.println(matcher.group(2));
-            System.out.println(matcher.group(3));
-            System.out.println("-----------");
-        }
-
-        end = System.nanoTime();
-
-        System.out.println("==========================");
-        System.out.println((end - start) / 1000000);
     }
 }
