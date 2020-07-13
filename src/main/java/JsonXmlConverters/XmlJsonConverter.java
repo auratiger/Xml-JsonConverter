@@ -3,6 +3,7 @@ package JsonXmlConverters;
 import JsonXmlConverters.Json.ArrayObjectBuilder;
 import JsonXmlConverters.Json.Json;
 import JsonXmlConverters.Json.JsonObjectBuilder;
+import JsonXmlConverters.Xml.AttributeBuilder;
 import JsonXmlConverters.Xml.Xml;
 import JsonXmlConverters.Xml.XmlObjectBuilder;
 import com.florianingerl.util.regex.Matcher;
@@ -64,6 +65,17 @@ public class XmlJsonConverter {
             if(obj == this) return true;
             if(!(obj instanceof Xml)) return false;
             return tag.equals(((XmlNode) obj).tag);
+        }
+    }
+
+    public String parse(String text){
+        text = text.trim();
+        if (text.startsWith("{")){
+            return parseJson(text).toString();
+        }else if(text.startsWith("<")){
+            return parseXml(text).toString();
+        }else{
+            throw new IllegalArgumentException();
         }
     }
 
@@ -183,7 +195,7 @@ public class XmlJsonConverter {
     }
 
     public XmlObjectBuilder parseJson(String jsonText){
-        XmlObjectBuilder builder = Xml.createXmlObjectBuilder("root");
+        XmlObjectBuilder builder = Xml.createXmlObjectBuilder();
         HashMap<String, String> matches = findJsonMatches(jsonText);
 
         Set<String> keys = matches.keySet();
@@ -191,34 +203,72 @@ public class XmlJsonConverter {
 
         if(keys.isEmpty()){
             return null;
-        } else if (keys.size() == 1) {
-
+        }else if(keys.size() == 1){
             String key = it.next();
-            String value = matches.get(key).trim();
-
+            String value = matches.get(key);
             builder.setTag(key);
 
-            if (value.startsWith("{") || value.startsWith("[")) {
-                HashMap<String, String> innerMatches = findJsonMatches(value);
-                Set<String> innerKeys = innerMatches.keySet();
-                Iterator<String> innerIt = innerKeys.iterator();
-
-                for(;innerIt.hasNext();){
-                    String innerKey = innerIt.next();
-                    String innerValue = innerMatches.get(innerKey);
-                }
-
-            }else{
-                builder.addElement(value);
+            if(value.startsWith("#") || value.startsWith("@") || value.startsWith("[")){
+                throw new IllegalArgumentException();
             }
 
-
-        } else {
-            // add has a parent check
-            builder.setTag("root");
+            if(value.startsWith("{")){
+                convertingToXml(value, builder);
+            }else{
+                builder.addElement(unpackValue(value));
+            }
+        }else{
+            convertingToXml(jsonText, builder);
         }
 
         return builder;
+    }
+
+    private void convertingToXml(String jsonText, XmlObjectBuilder builder){
+        HashMap<String, String> matches = findJsonMatches(jsonText);
+
+        Set<String> keys = matches.keySet();
+        Iterator<String> it = keys.iterator();
+
+        for(;it.hasNext();){
+            String key = it.next();
+            String value = matches.get(key);
+
+            XmlObjectBuilder innerBuilder = Xml.createXmlObjectBuilder();
+
+            if(key.startsWith("@")){
+                builder.addAttribute(key, value);
+            }else if(key.startsWith("#")){
+                convertingToXml(value, builder);
+            }else if(value.startsWith("{")){
+                innerBuilder.setTag(key);
+                convertingToXml(value, innerBuilder);
+                builder.addElement(innerBuilder);
+            }else if(value.startsWith("[")){
+                String[] listValues = value.substring(1, value.length()-1).split(",");
+                for(String word : listValues){
+                    XmlObjectBuilder wordObject = Xml.createXmlObjectBuilder(key);
+                    if(word.trim().startsWith("{")){
+                        convertingToXml(word, wordObject);
+                    }else{
+                        wordObject.addElement(unpackValue(word));
+                    }
+                    builder.addElement(wordObject);
+                }
+            }else{
+                innerBuilder.setTag(key);
+                innerBuilder.addElement(value);
+                builder.addElement(innerBuilder);
+            }
+        }
+    }
+
+    private String unpackValue(String value){
+        if(value.startsWith("\"") && value.endsWith("\"")){
+            return value.substring(1, value.length()-1);
+        }else{
+            return value;
+        }
     }
 
     private HashMap<String, String> findJsonMatches(String jsonText){

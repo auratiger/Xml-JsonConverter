@@ -5,6 +5,9 @@ import com.sun.istack.internal.NotNull;
 import java.util.*;
 
 public class Xml {
+    public static XmlObjectBuilder createXmlObjectBuilder(){
+        return new XmlBuilder();
+    }
     public static XmlObjectBuilder createXmlObjectBuilder(String tag){
         return new XmlBuilder(tag);
     }
@@ -14,6 +17,10 @@ class XmlBuilder implements XmlObjectBuilder{
     private String tag;
     private final Attributes attributes = new Attributes();
     private final List<XmlObject> children = new ArrayList<XmlObject>();
+
+    public XmlBuilder(){
+        this.tag = "root";
+    }
 
     public XmlBuilder(String tag){
         if(tag == null) throw new IllegalArgumentException();

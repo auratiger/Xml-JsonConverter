@@ -63,8 +63,16 @@ public class XmlJsonConverterTerm {
         System.out.println(text);
 
         XmlJsonConverter converter = new XmlJsonConverter();
+        long start = System.nanoTime();
+
         XmlObjectBuilder result = converter.parseJson(text);
+
+        long end = System.nanoTime();
+
+        System.out.println("time: " + (end - start) / 1000000);
         System.out.println(result);
+
+
 
 
     }

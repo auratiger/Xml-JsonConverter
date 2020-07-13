@@ -6,7 +6,6 @@
 		<wsa:ReplyTo>
 			<wsa:Address>http://som-cablevision:44006/ilws-response-mock-impl/ResponseHandlerService?wsdl</wsa:Address>
 		</wsa:ReplyTo>
-
 	</soap:Header>
 	<soap:Body>
 		<ns1:CreateRequest xmlns:ns1="http://soa.comptel.com/2011/02/instantlink">
