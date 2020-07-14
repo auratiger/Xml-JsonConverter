@@ -60,7 +60,6 @@ public class XmlJsonConverterTerm {
         }
 
         String text = sb.toString();
-        System.out.println(text);
 
         XmlJsonConverter converter = new XmlJsonConverter();
         long start = System.nanoTime();

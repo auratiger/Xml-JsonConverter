@@ -3,7 +3,6 @@ package JsonXmlConverters;
 import JsonXmlConverters.Json.ArrayObjectBuilder;
 import JsonXmlConverters.Json.Json;
 import JsonXmlConverters.Json.JsonObjectBuilder;
-import JsonXmlConverters.Xml.AttributeBuilder;
 import JsonXmlConverters.Xml.Xml;
 import JsonXmlConverters.Xml.XmlObjectBuilder;
 import com.florianingerl.util.regex.Matcher;
@@ -23,9 +22,7 @@ public class XmlJsonConverter {
     private final Pattern attributeCompiler = Pattern.compile(attributePattern);
     private final Pattern jsonCompiler = Pattern.compile(jsonPattern);
 
-    private boolean hasParent = false;
-
-    class XmlNode{
+    private class XmlNode{
         private String tag;
         private String attributes;
         private String body;
@@ -157,7 +154,6 @@ public class XmlJsonConverter {
                 }
             }
         }
-
         return builder;
     }
 
@@ -237,7 +233,7 @@ public class XmlJsonConverter {
             XmlObjectBuilder innerBuilder = Xml.createXmlObjectBuilder();
 
             if(key.startsWith("@")){
-                builder.addAttribute(key, value);
+                builder.addAttribute(key, unpackValue(value));
             }else if(key.startsWith("#")){
                 convertingToXml(value, builder);
             }else if(value.startsWith("{")){
@@ -245,7 +241,7 @@ public class XmlJsonConverter {
                 convertingToXml(value, innerBuilder);
                 builder.addElement(innerBuilder);
             }else if(value.startsWith("[")){
-                String[] listValues = value.substring(1, value.length()-1).split(",");
+                String[] listValues = value.substring(1, value.length()-1).split("},");
                 for(String word : listValues){
                     XmlObjectBuilder wordObject = Xml.createXmlObjectBuilder(key);
                     if(word.trim().startsWith("{")){
@@ -257,14 +253,14 @@ public class XmlJsonConverter {
                 }
             }else{
                 innerBuilder.setTag(key);
-                innerBuilder.addElement(value);
+                innerBuilder.addElement(unpackValue(value));
                 builder.addElement(innerBuilder);
             }
         }
     }
 
     private String unpackValue(String value){
-        if(value.startsWith("\"") && value.endsWith("\"")){
+        if((value.startsWith("\"") && value.endsWith("\"")) || (value.startsWith("'") && value.endsWith("'"))){
             return value.substring(1, value.length()-1);
         }else{
             return value;
